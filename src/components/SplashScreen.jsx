@@ -22,7 +22,7 @@ const SplashScreen = () => {
           transition={{ duration: 0.6 }}>
           {/* Ambient glow */}
           <motion.div
-            className="absolute h-72 w-72 rounded-full bg-blue-500/30 dark:bg-cyan-400/20 blur-[120px]"
+            className="absolute h-72 w-72 rounded-full bg-violet-500/20 dark:bg-violet-600/30 blur-[120px]"
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           />

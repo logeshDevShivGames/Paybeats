@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import DeviceHeader from "../components/DeviceHeader";
@@ -10,12 +10,25 @@ import TestSounds from "../components/TestSounds";
 import AmountModal from "../components/AmountModal";
 import DeviceSocket from "../utils/SocketComponent";
 import { useLocation } from "react-router-dom";
+import useDeviceSocket from "../hooks/useDeviceSocket";
 const DevicePage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   // Mock selected device
-  const device = state?.device;
+  const [device, setDevice] = useState(state?.device);
   const socket = DeviceSocket({ deviceId: device?.deviceId });
+  useEffect(() => {
+    if (device) {
+      setVolume(device?.volume);
+    }
+  }, [device]);
+
+  useDeviceSocket({
+    onSnapshot: (data) => {
+      const find = data.find((x) => x.deviceId == device.deviceId);
+      setDevice(find);
+    },
+  });
 
   const [volume, setVolume] = useState(50);
   const [language, setLanguage] = useState("en");
