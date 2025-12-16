@@ -8,17 +8,14 @@ import PaymentTesting from "../components/PaymentTesting";
 import LanguageSelector from "../components/LanguageSelector";
 import TestSounds from "../components/TestSounds";
 import AmountModal from "../components/AmountModal";
-
+import DeviceSocket from "../utils/SocketComponent";
+import { useLocation } from "react-router-dom";
 const DevicePage = () => {
-  const { id } = useParams();
+  const { state } = useLocation();
   const navigate = useNavigate();
-
   // Mock selected device
-  const device = {
-    id,
-    name: `SoundBox-${id}`,
-    status: "online",
-  };
+  const device = state?.device;
+  const socket = DeviceSocket({ deviceId: device?.deviceId });
 
   const [volume, setVolume] = useState(50);
   const [language, setLanguage] = useState("en");
@@ -34,9 +31,10 @@ const DevicePage = () => {
         volume={volume}
         setVolume={setVolume}
         selectedDevice={device}
+        sendCommand={socket.sendCommand}
       />
 
-      <QuickActions selectedDevice={device} />
+      <QuickActions selectedDevice={device} sendCommand={socket.sendCommand} />
 
       <PaymentTesting
         selectedDevice={device}
@@ -48,6 +46,7 @@ const DevicePage = () => {
         language={language}
         setLanguage={setLanguage}
         selectedDevice={device}
+        sendCommand={socket.sendCommand}
       />
 
       {/* <TestSounds selectedDevice={device} /> */}
@@ -59,6 +58,7 @@ const DevicePage = () => {
         setAmount={setAmount}
         paymentAction={paymentAction}
         selectedDevice={device}
+        sendCommand={socket.sendCommand}
       />
     </>
   );

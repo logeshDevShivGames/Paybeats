@@ -1,5 +1,3 @@
-import { sendCommand } from "../utils/commandSender";
-
 const AmountModal = ({
   visible,
   setVisible,
@@ -7,12 +5,19 @@ const AmountModal = ({
   setAmount,
   paymentAction,
   selectedDevice,
+  sendCommand,
 }) => {
   if (!visible) return null;
 
   const confirm = () => {
-    sendCommand(selectedDevice, `payment:${paymentAction}:${amount}`);
-    setAmount("100");
+    sendCommand?.({
+      type: "payment",
+      amount: amount,
+      // amount_url: "https://yourdomain.com/audio/10.mp3",
+      amount_url:
+        "https://cdn.uppbeat.io/audio-files/13a6d3c9e914de5ab3fb451786993718/826e482389c32b91a018438d75032fb2/128a811678cd078e2ebf1ae98be81df8/STREAMING-cash-register-opening-smartsound-fx-1-00-02.mp3",
+    });
+    setAmount(amount);
     setVisible(false);
   };
 

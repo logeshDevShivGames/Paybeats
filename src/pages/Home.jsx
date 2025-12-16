@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
 import DeviceList from "../components/DeviceList";
 import { Volume2 } from "lucide-react";
+import useDeviceSocket from "../hooks/useDeviceSocket";
 
 const Home = () => {
   const [devices, setDevices] = useState([]);
 
   useEffect(() => {
-    const mockDevices = [
-      { id: "32A04E0C", name: "SoundBox-001", status: "online", hasQR: true },
-      { id: "45B12F3A", name: "SoundBox-002", status: "online", hasQR: false },
-      { id: "78C34D5E", name: "SoundBox-003", status: "offline", hasQR: true },
-    ];
-    setDevices(mockDevices);
+    // const mockDevices = [
+    //   { id: "32A04E0C", name: "SoundBox-001", status: "online", hasQR: true },
+    //   { id: "45B12F3A", name: "SoundBox-002", status: "online", hasQR: false },
+    //   { id: "78C34D5E", name: "SoundBox-003", status: "offline", hasQR: true },
+    // ];
+    // setDevices(mockDevices);
   }, []);
 
+  useDeviceSocket({
+    onSnapshot: (data) => {
+      setDevices(data);
+    },
+  });
   return (
     <>
       <div className="rounded-2xl mb-4 bg-white/70 dark:bg-gray-800/70 backdrop-blur-lg shadow-lg border border-white/20 dark:border-gray-700/30 px-6 py-7">

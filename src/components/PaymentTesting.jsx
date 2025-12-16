@@ -13,7 +13,7 @@ const PaymentTesting = ({
   return (
     <div
       className="
-        rounded-2xl bg-white/70 dark:bg-zinc-900/70 
+        rounded-2xl bg-white/70 dark:bg-zinc-800/70 
         backdrop-blur-xl border border-white/20 dark:border-zinc-700
         shadow-lg dark:shadow-xl p-4 sm:p-6 mb-6 transition-all
       ">

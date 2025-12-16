@@ -4,20 +4,29 @@ const languages = [
   { label: "English", code: "en" },
   { label: "हिंदी", code: "hi" },
   { label: "தமிழ்", code: "ta" },
+  { label: "ಕನ್ನಡ", code: "kn" },
 ];
 
-const LanguageSelector = ({ language, setLanguage, selectedDevice }) => {
+const LanguageSelector = ({
+  language,
+  setLanguage,
+  selectedDevice,
+  sendCommand,
+}) => {
   const changeLang = (code) => {
     setLanguage(code);
-    sendCommand(selectedDevice, `language:${code}`);
+    sendCommand?.({
+      type: "language",
+      lang: code,
+    });
   };
 
   return (
     <div
       className="
-        rounded-2xl bg-white/70 dark:bg-zinc-900/70 
+        rounded-2xl bg-white/70 dark:bg-zinc-800/70 
         backdrop-blur-xl border border-white/20 dark:border-zinc-700
-        shadow-lg dark:shadow-xl p-4 sm:p-6 mb-6 transition-all
+        shadow-lg dark:shadow-xl p-4 sm:p-6 transition-all
       ">
       <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">
         Language

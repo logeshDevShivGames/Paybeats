@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 const DeviceList = ({ devices }) => {
   const navigate = useNavigate();
+  const handleClick = (device) => {
+    // Navigate to /device route and pass device via state
+    if (device.status === "online") {
+      navigate(`/device`, { state: { device } });
+    }
+  };
 
   return (
     <div className="rounded-2xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl shadow-md border border-white/20 dark:border-gray-700/30 p-6 transition-all">
@@ -16,8 +22,8 @@ const DeviceList = ({ devices }) => {
 
           return (
             <button
-              key={device.id}
-              onClick={() => navigate(`/device/${device.id}`)}
+              key={device.deviceId}
+              onClick={() => handleClick(device)}
               className="w-full flex items-center justify-between p-4 rounded-2xl 
                 bg-white/60 dark:bg-gray-800/50 backdrop-blur-md 
                 border border-gray-200/60 dark:border-gray-700/40 
@@ -41,11 +47,11 @@ const DeviceList = ({ devices }) => {
                 {/* Text Info */}
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 md:text-lg">
-                    {device.name}
+                    {device.device_kind}
                   </h3>
 
                   <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">
-                    ID: {device.id}
+                    ID: {device.deviceId}
                   </p>
 
                   {device.hasQR && (

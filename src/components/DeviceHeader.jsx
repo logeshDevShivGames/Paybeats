@@ -9,7 +9,7 @@ const DeviceHeader = ({ device }) => {
   return (
     <div
       className="
-        rounded-2xl bg-white/70 dark:bg-zinc-900/70 
+        rounded-2xl bg-white/70 dark:bg-zinc-800/70 
         backdrop-blur-xl border border-white/20 dark:border-zinc-700
         shadow-lg dark:shadow-xl p-4 sm:p-6 mb-6 transition-all
       ">
@@ -49,12 +49,12 @@ const DeviceHeader = ({ device }) => {
         {/* Text Section */}
         <div>
           <h1 className="text-base sm:text-lg md:text-2xl font-semibold text-gray-900 dark:text-gray-100 tracking-tight">
-            {device.name}
+            {device.device_kind}
           </h1>
 
           <div className="flex items-center flex-wrap gap-1.5 sm:gap-2 mt-1">
             <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-              ID: {device.id}
+              ID: {device.deviceId}
             </p>
 
             {device.hasQR && (

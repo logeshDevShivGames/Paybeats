@@ -1,40 +1,54 @@
 import React, { useState, useEffect, useRef } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import { Volume1, Volume2, VolumeX } from "lucide-react";
-import { sendCommand } from "../utils/commandSender";
+import { Volume1, Volume2 } from "lucide-react";
 
-const VolumeControl = ({ volume, setVolume, selectedDevice }) => {
-  const [localVol, setLocalVol] = useState(Number(volume ?? 0));
+const VolumeControl = ({
+  volume = 0,
+  setVolume,
+  selectedDevice,
+  sendCommand,
+}) => {
+  const [localVol, setLocalVol] = useState(Number(volume));
   const lastSentRef = useRef(localVol);
 
+  // Update localVol if parent volume changes
   useEffect(() => {
-    setLocalVol(Number(volume ?? 0));
+    setLocalVol(Number(volume));
   }, [volume]);
+
+  // Send volume command
+  const sendVolumeCommand = (value) => {
+    if (lastSentRef.current === value) return; // avoid duplicates
+    lastSentRef.current = value;
+
+    sendCommand?.({
+      type: "vol",
+      value,
+    });
+  };
 
   // Buttons
   const increase = () => {
     const newVol = Math.min(localVol + 10, 100);
     setLocalVol(newVol);
-    setVolume(newVol);
-
-    sendCommand(selectedDevice, "volume:up");
-    sendCommand(selectedDevice, `volume:set:${newVol}`);
+    setVolume?.(newVol);
+    // sendVolumeCommand(newVol);
+    sendCommand?.({ type: "vol_up" });
   };
 
   const decrease = () => {
     const newVol = Math.max(localVol - 10, 0);
     setLocalVol(newVol);
-    setVolume(newVol);
-
-    sendCommand(selectedDevice, "volume:down");
-    sendCommand(selectedDevice, `volume:set:${newVol}`);
+    setVolume?.(newVol);
+    // sendVolumeCommand(newVol);
+    sendCommand?.({ type: "vol_down" });
   };
 
   return (
     <div
       className="
-        rounded-2xl bg-white/70 dark:bg-zinc-900/70 
+        rounded-2xl bg-white/70 dark:bg-zinc-800/70 
         backdrop-blur-xl border border-white/20 dark:border-zinc-700
         shadow-lg dark:shadow-xl p-4 sm:p-6 mb-6 transition-all
       ">
@@ -59,34 +73,22 @@ const VolumeControl = ({ volume, setVolume, selectedDevice }) => {
             value={localVol}
             onChange={(v) => {
               setLocalVol(v);
-              setVolume(v);
+              setVolume?.(v);
             }}
-            onChangeComplete={(v) => {
-              if (lastSentRef.current !== v) {
-                lastSentRef.current = v;
-                sendCommand(selectedDevice, `volume:set:${v}`);
-              }
+            onAfterChange={(v) => sendVolumeCommand(v)}
+            trackStyle={{ backgroundColor: "#4F46E5", height: 12 }}
+            railStyle={{
+              backgroundColor: "rgba(148,163,184,0.35)",
+              height: 12,
             }}
-            styles={{
-              rail: {
-                height: 12,
-                backgroundColor: "rgba(148,163,184,0.35)", // gray-400/35
-              },
-              track: {
-                height: 12,
-                background: "linear-gradient(to right, #6366F1, #4F46E5)", // indigo
-              },
-              handle: {
-                width: 18,
-                height: 18,
-                border: "2px solid #6366F1",
-                backgroundColor: "#ffffff",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
-                marginTop: -3,
-              },
+            handleStyle={{
+              borderColor: "#6366F1",
+              height: 18,
+              width: 18,
+              marginTop: -3,
+              backgroundColor: "#fff",
             }}
           />
-
           <p className="text-center mt-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
             {localVol}%
           </p>
