@@ -15,7 +15,10 @@ const AmountModal = ({
       amount: amount,
       // amount_url: "https://yourdomain.com/audio/10.mp3",
       amount_url:
-        "https://cdn.uppbeat.io/audio-files/13a6d3c9e914de5ab3fb451786993718/826e482389c32b91a018438d75032fb2/128a811678cd078e2ebf1ae98be81df8/STREAMING-cash-register-opening-smartsound-fx-1-00-02.mp3",
+        "https://mobcup.com.co/wp-content/uploads/z7x41bw695i7mq8ok28wmearf8y970yxc.mp3",
+      // "https://mobcup.fm/va/6l7yXc7qBeGcIEmBcSa8r",
+
+      // "https://cdn.uppbeat.io/audio-files/13a6d3c9e914de5ab3fb451786993718/826e482389c32b91a018438d75032fb2/128a811678cd078e2ebf1ae98be81df8/STREAMING-cash-register-opening-smartsound-fx-1-00-02.mp3",
     });
     setAmount(amount);
     setVisible(false);
@@ -43,20 +46,21 @@ const AmountModal = ({
           className="
             text-xl sm:text-2xl md:text-3xl 
             font-bold text-gray-900 dark:text-gray-100 
-            mb-2 capitalize tracking-tight
+            mb-4 capitalize tracking-tight 
           ">
-          {paymentAction} Payment
+          Payment
         </h3>
 
-        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4">
+        {/* <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4">
           Enter the payment amount
-        </p>
+        </p> */}
 
         {/* Input */}
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          readOnly
           className="
             w-full text-center 
             text-2xl sm:text-3xl md:text-4xl 
@@ -116,7 +120,7 @@ const AmountModal = ({
               transition-all hover:scale-[1.03] active:scale-[0.96]
               text-sm sm:text-base
             ">
-            Send Command
+            Send Payment
           </button>
         </div>
       </div>

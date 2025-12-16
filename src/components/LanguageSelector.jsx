@@ -33,7 +33,7 @@ const LanguageSelector = ({
       </h2>
 
       {/* Responsive grid: 3 cols on md+, 2 cols on mobile */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-4">
         {languages.map((lang) => {
           const isActive = language === lang.code;
 

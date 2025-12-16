@@ -43,7 +43,7 @@ const PaymentTesting = ({
         )}
 
         {/* Success + Failed Buttons */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 gap-3 sm:gap-4">
           {/* Payment Success */}
           <button
             onClick={() => openModal("success")}
@@ -60,11 +60,11 @@ const PaymentTesting = ({
                 group-hover:scale-110 transition
               "
             />
-            <span className="text-sm sm:text-base">Success</span>
+            <span className="text-sm sm:text-base">Check Payment</span>
           </button>
 
           {/* Payment Failed */}
-          <button
+          {/* <button
             onClick={() => openModal("failed")}
             className="
               group p-4 sm:p-6 rounded-xl 
@@ -80,7 +80,7 @@ const PaymentTesting = ({
               "
             />
             <span className="text-sm sm:text-base">Failed</span>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
