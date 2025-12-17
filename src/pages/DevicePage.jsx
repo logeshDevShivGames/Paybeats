@@ -8,27 +8,45 @@ import PaymentTesting from "../components/PaymentTesting";
 import LanguageSelector from "../components/LanguageSelector";
 import TestSounds from "../components/TestSounds";
 import AmountModal from "../components/AmountModal";
-import DeviceSocket from "../utils/SocketComponent";
 import { useLocation } from "react-router-dom";
-import useDeviceSocket from "../hooks/useDeviceSocket";
+import useDeviceSocket from "../utils/useDeviceSocket";
 const DevicePage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   // Mock selected device
   const [device, setDevice] = useState(state?.device);
-  const socket = DeviceSocket({ deviceId: device?.deviceId });
+  const socket = useDeviceSocket({
+    deviceId: device?.deviceId,
+    onResponse: (response) => {
+      console.log("response", response);
+
+      const found = response.find((x) => x.deviceId === device?.deviceId);
+
+      if (found) {
+        setDevice(found);
+      }
+    },
+  });
+
   useEffect(() => {
     if (device) {
       setVolume(device?.volume);
     }
   }, [device]);
 
-  useDeviceSocket({
-    onSnapshot: (data) => {
-      const find = data.find((x) => x.deviceId == device.deviceId);
-      setDevice(find);
-    },
-  });
+  useEffect(() => {
+    if (device && device.status !== "online") {
+      // if (false) {
+      navigate("/", { replace: true });
+    }
+  }, [device?.status]);
+
+  // useDeviceSocket({
+  //   onSnapshot: (data) => {
+  //     const find = data.find((x) => x.deviceId == device.deviceId);
+  //     setDevice(find);
+  //   },
+  // });
 
   const [volume, setVolume] = useState(50);
   const [language, setLanguage] = useState("en");

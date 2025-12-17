@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DeviceList from "../components/DeviceList";
 import { Volume2 } from "lucide-react";
-import useDeviceSocket from "../hooks/useDeviceSocket";
+// import useDeviceSocket from "../hooks/useDeviceSocket";
+// import DeviceSocket from "../utils/useDeviceSocket";
+import useDeviceSocket from "../utils/useDeviceSocket";
 
 const Home = () => {
   const [devices, setDevices] = useState([]);
 
-  useEffect(() => {
-    // const mockDevices = [
-    //   { id: "32A04E0C", name: "SoundBox-001", status: "online", hasQR: true },
-    //   { id: "45B12F3A", name: "SoundBox-002", status: "online", hasQR: false },
-    //   { id: "78C34D5E", name: "SoundBox-003", status: "offline", hasQR: true },
-    // ];
-    // setDevices(mockDevices);
+  // useEffect(() => {
+  // const mockDevices = [
+  //   { id: "32A04E0C", name: "SoundBox-001", status: "online", hasQR: true },
+  //   { id: "45B12F3A", name: "SoundBox-002", status: "online", hasQR: false },
+  //   { id: "78C34D5E", name: "SoundBox-003", status: "offline", hasQR: true },
+  // ];
+  // setDevices(mockDevices);
+  // }, []);
+
+  const handleResponse = useCallback((response) => {
+    console.log("response", response);
+    setDevices(response); // ✅ re-render is fine
   }, []);
 
   useDeviceSocket({
-    onSnapshot: (data) => {
-      setDevices(data);
-    },
+    onResponse: handleResponse,
   });
   return (
     <>
