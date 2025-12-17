@@ -8,6 +8,10 @@ const QuickActions = ({ selectedDevice, sendCommand }) => {
     sendCommand?.({ type: "replay" });
   };
 
+  const playUrl = (value) => {
+    sendCommand?.(value);
+  };
+
   const handleURL = () => {
     setAudioUrl(
       "https://cdn.uppbeat.io/audio-files/13a6d3c9e914de5ab3fb451786993718/826e482389c32b91a018438d75032fb2/128a811678cd078e2ebf1ae98be81df8/STREAMING-cash-register-opening-smartsound-fx-1-00-02.mp3"
@@ -78,7 +82,8 @@ const QuickActions = ({ selectedDevice, sendCommand }) => {
       <PlayUrlModal
         open={openModal}
         onClose={() => setOpenModal(false)}
-        url={audioUrl}
+        audioUrl={audioUrl}
+        sendCommand={playUrl}
       />
     </div>
   );

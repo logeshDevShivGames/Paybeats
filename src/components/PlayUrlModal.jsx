@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { X, PlayCircle } from "lucide-react";
 import { createPortal } from "react-dom";
 
-const PlayUrlModal = ({ open, onClose, url }) => {
+const PlayUrlModal = ({ open, onClose, audioUrl, sendCommand }) => {
+  const [url, setUrl] = useState(audioUrl);
+
+  const handleSubmit = () => {
+    if (url) {
+      sendCommand({
+        type: "play_url",
+        url: url,
+      });
+    }
+  };
+
   if (!open) return null;
 
   return createPortal(
@@ -35,8 +46,25 @@ const PlayUrlModal = ({ open, onClose, url }) => {
           </button>
         </div>
 
+        <input
+          type="text"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          className="
+            w-full text-center  
+            font-bold tracking-tight py-3 sm:py-4 p-4 
+            rounded-xl 
+            bg-white/60 dark:bg-zinc-800/60 
+            border border-gray-300 dark:border-zinc-600 dark:text-white
+            shadow-inner dark:shadow 
+            focus:ring-2 focus:ring-blue-400 focus:border-blue-400 
+            outline-none transition-all
+            mb-5
+          "
+        />
+
         {/* URL Preview */}
-        <div
+        {/* <div
           className="
         rounded-xl 
         bg-gradient-to-br from-indigo-500 to-indigo-700 
@@ -57,23 +85,23 @@ const PlayUrlModal = ({ open, onClose, url }) => {
               {url || "No URL Entered"}
             </p>
           </div>
-        </div>
+        </div> */}
 
         {/* Player */}
-        {url && (
+        {/* {url && (
           <audio
             src={url}
             controls
             className="w-full mt-3 sm:mt-4 rounded-lg"
           />
-        )}
+        )} */}
 
         {/* Buttons */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 mt-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
           {/* Cancel */}
           <button
             onClick={onClose}
-            className="col-start-2 
+            className="
               py-2 sm:py-3 rounded-xl font-medium 
               bg-gray-200 dark:bg-zinc-700 
               text-gray-700 dark:text-gray-200
@@ -82,6 +110,19 @@ const PlayUrlModal = ({ open, onClose, url }) => {
               text-sm sm:text-base
             ">
             Cancel
+          </button>
+
+          {/* Confirm */}
+          <button
+            onClick={handleSubmit}
+            className="
+              py-2 sm:py-3 rounded-xl font-semibold 
+              bg-blue-600 hover:bg-blue-700 text-white 
+              shadow-md shadow-blue-500/30
+              transition-all hover:scale-[1.03] active:scale-[0.96]
+              text-sm sm:text-base
+            ">
+            Play Url
           </button>
         </div>
       </div>
